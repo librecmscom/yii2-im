@@ -6,7 +6,8 @@
   "license": "BSD-3-Clause",
   "require": {
     "yiisoft/yii2": "~2.0",
-    "yuncms/yii2-user": "~2.0"
+    "yuncms/yii2-user": "~2.0",
+    "xutl/yii2-tim": "~1.0"
   },
   "autoload": {
     "psr-4": {
