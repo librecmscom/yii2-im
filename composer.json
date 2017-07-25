@@ -13,5 +13,8 @@
     "psr-4": {
       "yuncms\\im\\": ""
     }
+  },
+  "extra": {
+    "bootstrap": "yuncms\\im\\Bootstrap"
   }
 }

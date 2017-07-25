@@ -1,10 +1,16 @@
-//IE9(含)以下浏览器用到的jsonp回调函数
+/**
+ * IE9(含)以下浏览器用到的jsonp回调函数
+ * @param rspData
+ */
 function jsonpCallback(rspData) {
     //设置接口返回的数据
     webim.setJsonpLastRspData(rspData);
 }
 
-//监听大群新消息（普通，点赞，提示，红包）
+/**
+ * 监听大群新消息（普通，点赞，提示，红包）
+ * @param msgList
+ */
 function onBigGroupMsgNotify(msgList) {
     for (var i = msgList.length - 1; i >= 0; i--) {//遍历消息，按照时间从后往前
         var msg = msgList[i];
@@ -25,7 +31,10 @@ function onMsgNotify(newMsgList) {
     }
 }
 
-//处理消息（私聊(包括普通消息和全员推送消息)，普通群(非直播聊天室)消息）
+/**
+ * 处理消息（私聊(包括普通消息和全员推送消息)，普通群(非直播聊天室)消息）
+ * @param msg
+ */
 function handlderMsg(msg) {
     var fromAccount, fromAccountNick, sessType, subType, contentHtml;
 
@@ -75,7 +84,7 @@ function handlderMsg(msg) {
 function sdkLogin() {
     //web sdk 登录
     webim.login(loginInfo, listeners, options,
-        function (identifierNick) {
+        function (identifierNick) {//登录成功回调
             //identifierNick为登录用户昵称(没有设置时，为帐号)，无登录态时为空
             webim.Log.info('webim登录成功');
             applyJoinBigGroup(avChatRoomId);//加入大群
@@ -110,7 +119,10 @@ function applyJoinBigGroup(groupId) {
     );
 }
 
-//显示消息（群普通+点赞+提示+红包）
+/**
+ * 显示消息（群普通+点赞+提示+红包）
+ * @param msg
+ */
 function showMsg(msg) {
     var isSelfSend, fromAccount, fromAccountNick, sessType, subType;
     var ul, li, paneDiv, textDiv, nickNameSpan, contentSpan;
@@ -188,10 +200,14 @@ function showMsg(msg) {
     ul.appendChild(li);
 }
 
-//把消息转换成Html
+/**
+ * 把消息转换成Html
+ * @param msg
+ */
 function convertMsgtoHtml(msg) {
     var html = "", elems, elem, type, content;
-    elems = msg.getElems();//获取消息包含的元素数组
+    //获取消息包含的元素数组
+    elems = msg.getElems();
     for (var i in elems) {
         elem = elems[i];
         type = elem.getType();//获取元素类型
@@ -229,11 +245,19 @@ function convertMsgtoHtml(msg) {
     return webim.Tool.formatHtml2Text(html);
 }
 
-//解析文本消息元素
+/**
+ * 解析文本消息元素
+ * @param content
+ */
 function convertTextMsgToHtml(content) {
     return content.getText();
 }
-//解析表情消息元素
+
+/**
+ * 解析表情消息元素
+ * @param content
+ * @returns {string}
+ */
 function convertFaceMsgToHtml(content) {
     var faceUrl = null;
     var data = content.getData();
@@ -249,7 +273,12 @@ function convertFaceMsgToHtml(content) {
         return data;
     }
 }
-//解析图片消息元素
+
+/**
+ * 解析图片消息元素
+ * @param content
+ * @returns {string}
+ */
 function convertImageMsgToHtml(content) {
     var smallImage = content.getImage(webim.IMAGE_TYPE.SMALL);//小图
     var bigImage = content.getImage(webim.IMAGE_TYPE.LARGE);//大图
@@ -262,33 +291,57 @@ function convertImageMsgToHtml(content) {
     }
     return "<img src='" + smallImage.getUrl() + "#" + bigImage.getUrl() + "#" + oriImage.getUrl() + "' style='CURSOR: hand' id='" + content.getImageId() + "' bigImgUrl='" + bigImage.getUrl() + "' onclick='imageClick(this)' />";
 }
-//解析语音消息元素
+
+/**
+ * 解析语音消息元素
+ * @param content
+ * @returns {string}
+ */
 function convertSoundMsgToHtml(content) {
     var second = content.getSecond();//获取语音时长
     var downUrl = content.getDownUrl();
     if (webim.BROWSER_INFO.type == 'ie' && parseInt(webim.BROWSER_INFO.ver) <= 8) {
-        return '[这是一条语音消息]demo暂不支持ie8(含)以下浏览器播放语音,语音URL:' + downUrl;
+        return '[这是一条语音消息]暂不支持ie8(含)以下浏览器播放语音,语音URL:' + downUrl;
     }
     return '<audio src="' + downUrl + '" controls="controls" onplay="onChangePlayAudio(this)" preload="none"></audio>';
 }
-//解析文件消息元素
+
+/**
+ * 解析文件消息元素
+ * @param content
+ * @returns {string}
+ */
 function convertFileMsgToHtml(content) {
     var fileSize = Math.round(content.getSize() / 1024);
     return '<a href="' + content.getDownUrl() + '" title="点击下载文件" ><i class="glyphicon glyphicon-file">&nbsp;' + content.getName() + '(' + fileSize + 'KB)</i></a>';
-
 }
-//解析位置消息元素
+
+/**
+ * 解析位置消息元素
+ * @param content
+ * @returns {string}
+ */
 function convertLocationMsgToHtml(content) {
     return '经度=' + content.getLongitude() + ',纬度=' + content.getLatitude() + ',描述=' + content.getDesc();
 }
-//解析自定义消息元素
+
+/**
+ * 解析自定义消息元素
+ * @param content
+ * @returns {string}
+ */
 function convertCustomMsgToHtml(content) {
     var data = content.getData();
     var desc = content.getDesc();
     var ext = content.getExt();
     return "data=" + data + ", desc=" + desc + ", ext=" + ext;
 }
-//解析群提示消息元素
+
+/**
+ * 解析群提示消息元素
+ * @param content
+ * @returns {string}
+ */
 function convertGroupTipMsgToHtml(content) {
     var WEB_IM_GROUP_TIP_MAX_USER_COUNT = 10;
     var text = "";
@@ -419,44 +472,10 @@ function convertGroupTipMsgToHtml(content) {
     return text;
 }
 
-//tls登录
-function tlsLogin() {
-    //跳转到TLS登录页面
-    TLSHelper.goLogin({
-        sdkappid: loginInfo.sdkAppID,
-        acctype: loginInfo.accountType,
-        url: window.location.href
-    });
-}
-//第三方应用需要实现这个函数，并在这里拿到UserSig
-function tlsGetUserSig(res) {
-    //成功拿到凭证
-    if (res.ErrorCode == webim.TLS_ERROR_CODE.OK) {
-        //从当前URL中获取参数为identifier的值
-        loginInfo.identifier = webim.Tool.getQueryString("identifier");
-        //拿到正式身份凭证
-        loginInfo.userSig = res.UserSig;
-        //从当前URL中获取参数为sdkappid的值
-        loginInfo.sdkAppID = loginInfo.appIDAt3rd = Number(webim.Tool.getQueryString("sdkappid"));
-        //从cookie获取accountType
-        var accountType = webim.Tool.getCookie('accountType');
-        if (accountType) {
-            loginInfo.accountType = accountType;
-            sdkLogin();//sdk登录
-        } else {
-            location.href = location.href.replace(/\?.*$/gi,"");
-        }
-    } else {
-        //签名过期，需要重新登录
-        if (res.ErrorCode == webim.TLS_ERROR_CODE.SIGNATURE_EXPIRATION) {
-            tlsLogin();
-        } else {
-            alert("[" + res.ErrorCode + "]" + res.ErrorInfo);
-        }
-    }
-}
-
-//单击图片事件
+/**
+ * 单击图片事件
+ * @param imgObj
+ */
 function imageClick(imgObj) {
     var imgUrls = imgObj.src;
     var imgUrlArr = imgUrls.split("#"); //字符分割
@@ -468,8 +487,10 @@ function imageClick(imgObj) {
     webim.Log.info("原图url:" + oriImgUrl);
 }
 
-
-//切换播放audio对象
+/**
+ * 切换播放audio对象
+ * @param obj
+ */
 function onChangePlayAudio(obj) {
     if (curPlayAudio) {//如果正在播放语音
         if (curPlayAudio != obj) {//要播放的语音跟当前播放的语音不一样
@@ -482,17 +503,12 @@ function onChangePlayAudio(obj) {
     }
 }
 
-//单击评论图片
+/**
+ * 单击评论图片
+ */
 function smsPicClick() {
     if (!loginInfo.identifier) {//未登录
-        if (accountMode == 1) {//托管模式
-            //将account_type保存到cookie中,有效期是1天
-            webim.Tool.setCookie('accountType', loginInfo.accountType, 3600 * 24);
-            //调用tls登录服务
-            tlsLogin();
-        } else {//独立模式
-            alert('请填写帐号和票据');
-        }
+        alert('请填写帐号和票据');
         return;
     } else {
         hideDiscussTool();//隐藏评论工具栏
@@ -500,19 +516,12 @@ function smsPicClick() {
     }
 }
 
-//发送消息(普通消息)
+/**
+ * 发送消息(普通消息)
+ */
 function onSendMsg() {
-
     if (!loginInfo.identifier) {//未登录
-        if (accountMode == 1) {//托管模式
-            //将account_type保存到cookie中,有效期是1天
-            webim.Tool.setCookie('accountType', loginInfo.accountType, 3600 * 24);
-            //调用tls登录服务
-            tlsLogin();
-        } else {//独立模式
-            alert('请填写帐号和票据');
-        }
-        return;
+        alert('请填写帐号和票据');
     }
 
     if (!selToID) {
@@ -557,7 +566,6 @@ function onSendMsg() {
         //webim.GROUP_MSG_SUB_TYPE.TIP-提示消息(不支持发送，用于区分群消息子类型)，
         //webim.GROUP_MSG_SUB_TYPE.REDPACKET-红包消息，优先级最高
         subType = webim.GROUP_MSG_SUB_TYPE.COMMON;
-
     } else {
         //C2C消息子类型如下：
         //webim.C2C_MSG_SUB_TYPE.COMMON-普通消息,
@@ -572,7 +580,6 @@ function onSendMsg() {
         text_obj = new webim.Msg.Elem.Text(msgtosend);
         msg.addText(text_obj);
     } else {//有表情
-
         for (var i = 0; i < emotions.length; i++) {
             tmsg = msgtosend.substring(0, msgtosend.indexOf(emotions[i]));
             if (tmsg) {
@@ -597,7 +604,8 @@ function onSendMsg() {
         }
     }
     webim.sendMsg(msg, function (resp) {
-        if (selType == webim.SESSION_TYPE.C2C) {//私聊时，在聊天窗口手动添加一条发的消息，群聊时，长轮询接口会返回自己发的消息
+        //私聊时，在聊天窗口手动添加一条发的消息，群聊时，长轮询接口会返回自己发的消息
+        if (selType == webim.SESSION_TYPE.C2C) {
             showMsg(msg);
         }
         webim.Log.info("发消息成功");
@@ -612,18 +620,12 @@ function onSendMsg() {
     });
 }
 
-//发送消息(群点赞消息)
+/**
+ * 发送消息(群点赞消息)
+ */
 function sendGroupLoveMsg() {
-
     if (!loginInfo.identifier) {//未登录
-        if (accountMode == 1) {//托管模式
-            //将account_type保存到cookie中,有效期是1天
-            webim.Tool.setCookie('accountType', loginInfo.accountType, 3600 * 24);
-            //调用tls登录服务
-            tlsLogin();
-        } else {//独立模式
-            alert('请填写帐号和票据');
-        }
+        alert('请填写帐号和票据');
         return;
     }
 
@@ -728,6 +730,7 @@ function showEmotionDialog() {
         showDiscussEmotion();//打开
     }
 }
+
 //选中表情
 function selectEmotionImg(selImg) {
     $("#send_msg_text").val($("#send_msg_text").val() + selImg.id);
@@ -741,7 +744,6 @@ function quitBigGroup() {
     webim.quitBigGroup(
         options,
         function (resp) {
-
             webim.Log.info('退群成功');
             $("#video_sms_list").find("li").remove();
             //webim.Log.error('进入另一个大群:'+avChatRoomId2);

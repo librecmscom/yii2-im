@@ -21,7 +21,7 @@ use yii\base\InvalidConfigException;
 class Module extends \yii\base\Module
 {
     /**
-     * @var string|Tim 直播组件实例
+     * @var array|string|Tim|static 直播组件实例
      */
     public $im = 'im';
 
@@ -39,22 +39,6 @@ class Module extends \yii\base\Module
         $this->im = Instance::ensure($this->im, Tim::className());
         if ($this->cache !== null) {
             $this->cache = Instance::ensure($this->cache, Cache::className());
-        }
-        $this->registerTranslations();
-    }
-
-    /**
-     * 注册语言包
-     * @return void
-     */
-    public function registerTranslations()
-    {
-        if (!isset(Yii::$app->i18n->translations['im*'])) {
-            Yii::$app->i18n->translations['im*'] = [
-                'class' => 'yii\i18n\PhpMessageSource',
-                'sourceLanguage' => 'en-US',
-                'basePath' => __DIR__ . '/messages',
-            ];
         }
     }
 }
