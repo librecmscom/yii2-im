@@ -8,6 +8,9 @@ $assets = ImAsset::register($this);
 //$this->context->layout = false;
 ?>
 <div class="row">
+    <div>
+
+    </div>
     <div class="video-page">
         <!--视频部分 start-->
         <div class="video-play">
