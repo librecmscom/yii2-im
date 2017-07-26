@@ -5,7 +5,7 @@
  * @license http://www.tintsoft.com/license/
  */
 
-namespace yuncms\im\frontend\widgets;
+namespace yuncms\im\wechat\widgets;
 
 use Yii;
 use yii\base\Widget;
@@ -110,13 +110,13 @@ class ChatRoomWidget extends Widget
         var selSess = null;
         var selSessHeadUrl = '{$this->headUrl}';
         var loginInfo = {
-            'sdkAppID': sdkAppID,
-            'appIDAt3rd': sdkAppID,
-            'accountType': accountType,
-            'identifier': '{$this->identifier}',
-            'identifierNick': '{$this->identifierNick}',
-            'userSig': '{$this->userSig}',
-            'headurl': '{$this->headUrl}'
+        'sdkAppID': sdkAppID,
+        'appIDAt3rd': sdkAppID,
+        'accountType': accountType,
+        'identifier': '{$this->identifier}',
+        'identifierNick': '{$this->identifierNick}',
+        'userSig': '{$this->userSig}',
+        'headurl': '{$this->headUrl}'
         };
         var onGroupSystemNotifys = {
             \"5\": onDestoryGroupNotify,
