@@ -3,7 +3,7 @@
   "description": "The im extension for the yuncms",
   "keywords": ["yuncms","im"],
   "type": "yii2-extension",
-  "license": "BSD-3-Clause",
+  "license": "MIT",
   "require": {
     "yiisoft/yii2": "~2.0",
     "yuncms/yii2-user": "~2.0",

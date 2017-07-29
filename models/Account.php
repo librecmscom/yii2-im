@@ -217,7 +217,7 @@ class Account extends ActiveRecord
         parent::afterSave($insert, $changedAttributes);
         if ($insert) {
             //注册
-            Yii::$app->im->accountImport($this->identifier, $this->nick, $this->faceUrl, $this->type);
+            $res = Yii::$app->im->accountImport($this->identifier, $this->nick, $this->head_url, $this->type);
         } else {
             //修改
 

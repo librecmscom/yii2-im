@@ -99,7 +99,7 @@ $imUser = \yuncms\im\models\Account::findByUser(Yii::$app->user->identity);
     'identifier' => $imUser->identifier,
     'identifierNick' => $imUser->nick,
     'userSig' => $imUser->getSign(),
-    'headUrl' => $imUser->faceUrl,
+    'headUrl' => $imUser->head_url,
     'avLiveRoomId' => '@TGS#a6GQ7R3E5'
 ]) ?>
 
