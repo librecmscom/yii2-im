@@ -183,7 +183,7 @@ function convertGroupTipMsgToHtml(content) {
             //房间成员数加1
             //memberCount = $('#user-icon-fans').html();
             //// $('#user-icon-fans').html(parseInt(memberCount) + 1);
-            $(".qlOLPeople").text(parseInt($(".qlOLPeople").text()) + 1);
+            jQuery(".qlOLPeople").text(parseInt(jQuery(".qlOLPeople").text()) + 1);
             break;
         case webim.GROUP_TIP_TYPE.QUIT://退出群
             text += opUserId + "离开房间";
@@ -656,17 +656,6 @@ function smsPicClick() {
     } else {
         hideDiscussTool();//隐藏评论工具栏
         showDiscussForm();//显示评论表单
-    }
-}
-
-//打开或显示表情
-function showEmotionDialog() {
-    if (openEmotionFlag) {//如果已经打开
-        openEmotionFlag = false;
-        hideDiscussEmotion();//关闭
-    } else {//如果未打开
-        openEmotionFlag = true;
-        showDiscussEmotion();//打开
     }
 }
 
