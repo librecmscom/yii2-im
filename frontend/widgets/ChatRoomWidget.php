@@ -13,7 +13,7 @@ use yii\web\View;
 use yii\helpers\Html;
 use yii\helpers\Json;
 use yii\base\InvalidConfigException;
-use yuncms\im\wechat\assets\ImAsset;
+use yuncms\im\frontend\assets\ImAsset;
 
 /**
  * Class ChatRoomWidget
@@ -135,15 +135,15 @@ class ChatRoomWidget extends Widget
                     break;
             }
         };
-        var listeners = {
-            \"onConnNotify\": onConnNotify,
-            \"jsonpCallback\": function(rspData){
-                webim.setJsonpLastRspData(rspData);
-            },
-            \"onBigGroupMsgNotify\": onBigGroupMsgNotify,
-            \"onMsgNotify\": onMsgNotify,
-            \"onGroupSystemNotifys\": onGroupSystemNotifys
-        };
+        //监听事件
+    var listeners = {
+        \"onConnNotify\": onConnNotify, //选填
+        \"jsonpCallback\": jsonpCallback, //IE9(含)以下浏览器用到的jsonp回调函数,移动端可不填，pc端必填
+        \"onBigGroupMsgNotify\": onBigGroupMsgNotify, //监听新消息(大群)事件，必填
+        \"onMsgNotify\": onMsgNotify,//监听新消息(私聊(包括普通消息和全员推送消息)，普通群(非直播聊天室)消息)事件，必填
+        \"onGroupSystemNotifys\": onGroupSystemNotifys, //监听（多终端同步）群系统消息事件，必填
+        \"onGroupInfoChangeNotify\": onGroupInfoChangeNotify//监听群资料变化事件，选填
+    };
         var options = {
             'isAccessFormalEnv': true,
             'isLogOn': true

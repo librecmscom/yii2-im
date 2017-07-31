@@ -96,7 +96,7 @@ $assets = ImAsset::register($this);
 $imUser = \yuncms\im\models\Account::findByUser(Yii::$app->user->identity);
 ?>
 <?= \yuncms\im\frontend\widgets\ChatRoomWidget::widget([
-    'identifier' => $imUser->identifier,
+    'identifier' => 'testestest',
     'identifierNick' => $imUser->nick,
     'userSig' => $imUser->getSign(),
     'headUrl' => $imUser->head_url,
