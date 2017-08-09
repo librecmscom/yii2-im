@@ -9,13 +9,13 @@ The preferred way to install this extension is through [composer](http://getcomp
 Either run
 
 ```bash
-$ composer require yuncms/yii2-im:~1.0
+$ composer require yuncms/yii2-im
 ```
 
 or add
 
 ```
-"yuncms/yii2-im": "~1.0"
+"yuncms/yii2-im": "~2.0.0"
 ```
 
 to the `require` section of your `composer.json` file.
