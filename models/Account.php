@@ -151,7 +151,7 @@ class Account extends ActiveRecord
         } else {
             $model = new static([
                 'identifier' => md5($user->id),
-                'nick' => $user->name,
+                'nick' => $user->username,
                 'type' => self::TYPE_GENERAL,
                 'user_id' => $user->id,
                 'head_url' => $user->getAvatar(User::AVATAR_BIG)
