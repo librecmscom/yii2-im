@@ -15,9 +15,24 @@
     }
   },
   "extra": {
+<<<<<<< origin/master
     "bootstrap": "yuncms\\im\\Bootstrap",
     "branch-alias": {
       "dev-master": "2.0-dev"
     }
   }
+=======
+    "bootstrap": "yuncms\\im\\Bootstrap"
+  },
+  "repositories": [
+    {
+      "type": "composer",
+      "url": "https://asset-packagist.org"
+    },
+    {
+      "type": "composer",
+      "url": "https://packagist.phpcomposer.com"
+    }
+  ]
+>>>>>>> local
 }

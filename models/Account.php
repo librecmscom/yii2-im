@@ -33,10 +33,6 @@ class Account extends ActiveRecord
     //机器人账户
     const TYPE_ROBOT = 0b1;
 
-    const OLD_EMAIL_CONFIRMED = 0b1;
-    const NEW_EMAIL_CONFIRMED = 0b10;
-    const OLD_MOBILE_CONFIRMED = 0b11;
-
     const STATE_OFFLINE = 0b0;//客户端主动退出登录或者客户端自上一次登录起7天之内未登录过。
     const STATE_PUSH_ONLINE = 0b1;//IOS客户端退到后台或进程被杀或因网络问题掉线，进入PushOnline状态，
     //此时仍然可以接收消息离线APNS推送。注意，云通信后台只会保存PushOnline状态7天时间，若从掉线时刻起7天之内未登录过，则进入Offline状态。
@@ -66,6 +62,7 @@ class Account extends ActiveRecord
         ];
     }
 
+
     /**
      * @inheritdoc
      */
@@ -75,8 +72,7 @@ class Account extends ActiveRecord
             [['user_id'], 'integer'],
             [['identifier'], 'unique'],
             [['identifier'], 'string', 'max' => 32],
-
-            [['nick', 'head_url'], 'string', 'max' => 255],
+            [['head_url'], 'string', 'max' => 255],
             [['user_id'], 'exist', 'skipOnError' => true, 'targetClass' => User::className(), 'targetAttribute' => ['user_id' => 'id']],
 
             // type rules
@@ -119,6 +115,15 @@ class Account extends ActiveRecord
     public function getUser()
     {
         return $this->hasOne(User::className(), ['id' => 'user_id']);
+    }
+
+    /**
+     * 获取昵称
+     * @return string
+     */
+    public function getNickname()
+    {
+        return $this->user->nickname;
     }
 
     /**
